@@ -1,61 +1,325 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechFest 2025 - About</title>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Synapse'25</title>
+    <link rel="icon" type="image/jpeg" href="./images/Logo.jpeg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body class="bg-slate-900 text-gray-200 font-sans min-h-screen flex flex-col">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-    <header class="sticky top-0 z-50 bg-slate-900/60 backdrop-blur-lg border-b border-white/10">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-            <a href="index.html" class="text-2xl font-bold text-white">
-                TechFest 2025
-            </a>
-            
-            <div class="hidden md:flex space-x-6">
-                <a href="index.html" class="text-gray-300 hover:text-white transition-colors duration-200">Home</a>
-                <a href="about.html" class="text-gray-300 hover:text-white transition-colors duration-200">About</a>
-                <a href="competitions.html" class="text-gray-300 hover:text-white transition-colors duration-200">Competitions</a>
-                <a href="timeline.html" class="text-gray-300 hover:text-white transition-colors duration-200">Timeline</a>
-            </div>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: radial-gradient(circle at 20% 20%, #0a0118, #0b0018, #05010d);
+        color: #f3f4f6;
+        overflow-x: hidden;
+      }
 
-            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md text-gray-300 hover:text-white">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
+      .glass {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        transition: all 0.4s ease;
+      }
+
+      .glass:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 0 20px rgba(186, 85, 211, 0.35);
+      }
+
+      /* Timeline vertical line */
+      .timeline-line {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(180deg, #d946ef, #a855f7, #fb7185);
+        opacity: 0.25;
+        border-radius: 2px;
+        animation: pulseLine 6s ease-in-out infinite;
+      }
+
+      @keyframes pulseLine {
+        0%, 100% {
+          opacity: 0.25;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+
+      /* Timeline items and dots */
+      .timeline-item {
+        position: relative;
+        margin: 3rem 0;
+        width: 100%;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 1s ease;
+      }
+
+      .timeline-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 14px;
+        height: 14px;
+        background: radial-gradient(circle, #f472b6, #a855f7);
+        border-radius: 50%;
+        box-shadow: 0 0 8px rgba(217, 70, 239, 0.4);
+        z-index: 10;
+        animation: pulseDot 4s ease-in-out infinite;
+      }
+
+      @keyframes pulseDot {
+        0%, 100% {
+          box-shadow: 0 0 8px rgba(217, 70, 239, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 15px rgba(217, 70, 239, 0.6);
+        }
+      }
+
+      .timeline-content {
+        position: relative;
+        width: 90%;
+        max-width: 500px;
+        margin: 0 auto;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        text-align: left;
+        z-index: 2;
+      }
+
+      .timeline-content h3 {
+        background: linear-gradient(90deg, #c084fc, #fb7185, #facc15);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .gradient-text {
+        background: linear-gradient(90deg, #c084fc, #fb7185, #facc15);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      @media (min-width: 768px) {
+        .timeline-content {
+          width: 45%;
+        }
+        .timeline-item:nth-child(odd) .timeline-content {
+          margin-left: auto;
+          text-align: left;
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+          margin-right: auto;
+          text-align: right;
+        }
+      }
+
+      #particles-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+    </style>
+  </head>
+
+  <body class="relative">
+    <div id="particles-js"></div>
+
+    <!-- Navbar -->
+    <header
+      class="fixed w-full top-0 z-50 backdrop-blur-lg bg-black/30 border-b border-white/10"
+    >
+      <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="./images/Logo.jpeg" alt="logo" class="h-10 w-10" />
+          <span
+            class="text-2xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-400 to-pink-500"
+            >Synapse'25</span
+          >
+        </a>
+
+        <nav class="hidden md:flex gap-8 text-gray-300 text-lg">
+          <a href="index.html#About" class="hover:text-fuchsia-400 transition"
+            >About</a
+          >
+          <a href="competition.html" class="hover:text-fuchsia-400 transition"
+            >Competition</a
+          >
+          <a
+            href="timeline.html"
+            class="text-fuchsia-400 font-semibold transition"
+            >Timeline</a
+          >
         </nav>
 
-        <div id="mobile-menu" class="hidden md:hidden px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700">Home</a>
-            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700">About</a>
-            <a href="competitions.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700">Competitions</a>
-            <a href="timeline.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700">Timeline</a>
+        <div id="menu-btn" class="md:hidden cursor-pointer">
+          <i class="fa-solid fa-bars text-white text-2xl"></i>
         </div>
+      </div>
+
+      <div
+        id="mobile-menu"
+        class="hidden flex-col absolute top-full left-0 w-full bg-black/80 backdrop-blur-xl text-center py-6 text-lg text-gray-200 mobile-menu"
+      >
+        <a href="index.html#About" class="block py-2 hover:text-fuchsia-400"
+          >About</a
+        >
+        <a href="competition.html" class="block py-2 hover:text-fuchsia-400"
+          >Competition</a
+        >
+        <a href="timeline.html" class="block py-2 text-fuchsia-400 font-semibold"
+          >Timeline</a
+        >
+      </div>
     </header>
 
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 flex-grow py-12">
-        <section id="about-content" class="py-12">
-            <h2 class="text-4xl font-bold text-center mb-12">About The Event</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <div class="glass-card text-center flex flex-col items-center justify-center p-8">
-                    <i class="fas fa-trophy text-6xl text-indigo-400 mb-4"></i>
-                    <h3 class="text-5xl font-bold text-white mb-2">5+</h3>
-                    <p class="text-xl font-semibold text-gray-300">Competitions</p>
-                </div>
-                <div class="glass-card text-center flex flex-col items-center justify-center p-8">
-                    <i class="fas fa-users text-6xl text-pink-400 mb-4"></i>
-                    <h3 class="text-5xl font-bold text-white mb-2">20+</h3>
-                    <p class="text-xl font-semibold text-gray-300">Participants</p>
-                </div>
-                <div class="glass-card text-center flex flex-col items-center justify-center p-8">
-                    <i class="fas fa-calendar-alt text-6xl text-purple-400 mb-4"></i>
-                    <h3 class="text-5xl font-bold text-white mb-2">2</h3>
-                    <p class="text-xl font-semibold text-gray-300">Action-Packed Days</p>
-                </div>
-            </div>
-            <div class="max-w-3xl mx-auto text-lg text-gray-300 leading-relaxed
+    <!-- Timeline Section -->
+    <section class="pt-32 pb-20 px-6 relative max-w-6xl mx-auto">
+      <h1
+        class="text-center text-4xl md:text-5xl font-extrabold mb-12 gradient-text"
+      >
+        EVENT TIMELINE
+      </h1>
+      <div class="timeline-line"></div>
+
+      <!-- Day 1 -->
+      <div class="timeline-item">
+        <div class="timeline-content glass">
+          <h3 class="text-xl font-bold mb-2">
+            <i class="fa-solid fa-calendar-day text-fuchsia-400 pr-2"></i>
+            Day 1 – November, 2025
+          </h3>
+          <ul class="text-gray-300 space-y-3 mt-4">
+            <li>
+              <b><i class="fa-solid fa-code text-fuchsia-400 pr-2"></i>Code Craft:</b>
+              10:00 AM – 11:30 AM
+            </li>
+            <li>
+              <b><i class="fa-solid fa-bug text-fuchsia-400 pr-2"></i>Bug Buster:</b>
+              11:45 AM – 01:00 PM
+            </li>
+            <li>
+              <b><i class="fa-solid fa-people-arrows text-fuchsia-400 pr-2"></i>Code Relay:</b>
+              02:00 PM – 05:00 PM
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Day 2 -->
+      <div class="timeline-item">
+        <div class="timeline-content glass">
+          <h3 class="text-xl font-bold mb-2">
+            <i class="fa-solid fa-calendar-day text-fuchsia-400 pr-2"></i>
+            Day 2 – November 26, 2025
+          </h3>
+          <ul class="text-gray-300 space-y-3 mt-4">
+            <li>
+              <b><i class="fa-solid fa-image text-fuchsia-400 pr-2"></i>Logo-Rhythm:</b>
+              10:30 AM – 11:30 AM
+            </li>
+            <li>
+              <b><i class="fa-solid fa-lightbulb text-fuchsia-400 pr-2"></i>Tech Trivia:</b>
+              11:45 AM – 01:00 PM
+            </li>
+            <li>
+              <b><i class="fa-solid fa-gear text-fuchsia-400 pr-2"></i>Solution Sprint:</b>
+              01:30 PM – 03:00 PM
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Prize Distribution -->
+      <div class="timeline-item">
+        <div class="timeline-content glass">
+          <h3 class="text-xl font-bold mb-2">
+            <i class="fa-solid fa-trophy text-yellow-400 pr-2"></i>
+            Prize Distribution & Closing Ceremony
+          </h3>
+          <p class="text-gray-300 mt-3">
+            The grand finale of Synapse'25, celebrating innovation and
+            excellence. Join us as we honor the brightest minds and conclude the
+            event with awards and gratitude.
+          </p>
+          <p class="text-gray-400 text-sm mt-2">03:30 PM – 05:00 PM</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="bg-black/80 text-gray-400 py-6 text-center border-t border-white/10"
+    >
+      © 2025 Dept. of CS. All rights reserved.
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 60 },
+          color: { value: "#d946ef" },
+          shape: { type: "circle" },
+          opacity: { value: 0.3 },
+          size: { value: 3 },
+          line_linked: {
+            enable: true,
+            distance: 140,
+            color: "#a855f7",
+            opacity: 0.2,
+            width: 1,
+          },
+          move: { enable: true, speed: 1.2 },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: { onhover: { enable: true, mode: "grab" } },
+          modes: { grab: { distance: 120, line_linked: { opacity: 0.4 } } },
+        },
+        retina_detect: true,
+      });
+
+      const menuBtn = document.getElementById("menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Scroll reveal animation
+      const timelineItems = document.querySelectorAll(".timeline-item");
+      const revealOnScroll = () => {
+        const triggerBottom = window.innerHeight * 0.85;
+        timelineItems.forEach((item) => {
+          const itemTop = item.getBoundingClientRect().top;
+          if (itemTop < triggerBottom) {
+            item.classList.add("visible");
+          }
+        });
+      };
+      window.addEventListener("scroll", revealOnScroll);
+      revealOnScroll();
+    </script>
+  </body>
+</html>
